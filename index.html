@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Deepak Medical Agency</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <!-- Top Row -->
+    <div class="header-top">
+
+        <div class="logo-section">
+
+            <img src="images/website_images/logo.png" class="logo">
+
+            <div class="brand">
+
+                <h1>Deepak Medical Agency</h1>
+
+                <p>
+                    सही दवा💊 सही दाम💰 FREE & FAST Delivery🚚
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="search-cart">
+
+            <input
+            type="text"
+            id="search"
+            class="search-box"
+            placeholder="🔍 Search Medicines...">
+
+            <div id="cartButton">
+                🛒 Cart (0)
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Bottom Row -->
+
+    <div class="header-bottom">
+
+        <select id="categoryFilter">
+
+            <option value="ALL">📂 All Categories</option>
+            <option value="TABLET_CAP">💊 Tablet/Cap</option>
+            <option value="LIQUID">🧴 Syrup</option>
+            <option value="CREAM_OINT">🧴 Cream/Oint</option>
+            <option value="DROP">👁‍🗨 Drop</option>
+            <option value="OTHERS">📦 Others</option>
+
+        </select>
+
+        <button class="cat-btn active" onclick="selectCategory('ALL',this)"> 📂 All </button> 
+
+        <button class="cat-btn"
+        onclick="selectCategory('TABLET_CAP',this)">
+            💊 Tablet/Cap
+        </button>
+
+        <button class="cat-btn"
+        onclick="selectCategory('LIQUID',this)">
+            🧴 Syrup
+        </button>
+
+        <button class="cat-btn"
+        onclick="selectCategory('CREAM_OINT',this)">
+            🧴 Cream/Oint
+         </button>
+
+        <button class="cat-btn"
+        onclick="selectCategory('DROP',this)">
+            👁 Drop
+        </button>
+         <!---   
+        <button class="cat-btn"
+        onclick="selectCategory('OINTMENT',this)">
+            🩹 Ointment
+        </button>    -->
+
+        <button class="cat-btn"
+        onclick="selectCategory('OTHERS',this)">
+            📦 Others
+        </button>
+
+    </div>
+
+</header>
+
+<!-- Slider code  
+<div class="slider">
+
+    <button class="prev">&#10094;</button>
+
+    <div class="slides">
+
+        <img src="images/website_images/slider1.jpg">
+
+        <img src="images/website_images/slider2.jpg">
+
+        <img src="images/website_images/slider3.jpg">
+
+    </div>
+
+    <button class="next">&#10095;</button>
+
+</div> -->
+
+<div id="products"></div>
+
+<div id="cartArea"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+                              
