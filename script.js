@@ -272,7 +272,7 @@ function displayProducts(items){
         html += `
 
 <!-- =====================================================
-     PRODUCT CARD
+     PRODUCT CARD (Click/Tap image to open zoom view)
 ===================================================== -->
 
 <div class="card">
@@ -287,7 +287,10 @@ function displayProducts(items){
 
             <img
                 src="${product.image}"
-                alt="${product.name}">
+                alt="${product.name}"> 
+                class="zoomable-image"                     <!-- (Click/Tap image to open zoom view) -->
+             onclick="openImageZoom('${product.image}')">
+
 
         </div>
 
@@ -830,6 +833,96 @@ function closeCart(){
 
     cartOpen = false;
 }
+
+
+/* =========================================================
+   PRODUCT IMAGE ZOOM
+   Opens product image in full-screen overlay
+========================================================= */
+
+function openImageZoom(imageSrc){
+
+    // Create overlay
+    const overlay = document.createElement("div");
+
+    overlay.className = "image-zoom-overlay";
+
+    overlay.innerHTML = `
+    
+        <img
+            src="${imageSrc}"
+            class="zoomed-image"
+            alt="Product Image">
+
+    `;
+
+    // Add overlay to page
+    document.body.appendChild(overlay);
+
+    // Small delay so CSS transition works
+    setTimeout(() => {
+
+        overlay.classList.add("active");
+
+    }, 10);
+
+
+    /* -----------------------------------------------------
+       Close when user clicks outside the image
+    ----------------------------------------------------- */
+
+    overlay.addEventListener("click", function(event){
+
+        if(event.target === overlay){
+
+            closeImageZoom(overlay);
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   CLOSE IMAGE ZOOM
+========================================================= */
+
+function closeImageZoom(overlay){
+
+    overlay.classList.remove("active");
+
+    setTimeout(() => {
+
+        overlay.remove();
+
+    }, 200);
+
+}
+
+
+/* =========================================================
+   ESC KEY CLOSE
+========================================================= */
+
+document.addEventListener("keydown", function(event){
+
+    if(event.key === "Escape"){
+
+        const overlay =
+            document.querySelector(".image-zoom-overlay");
+
+        if(overlay){
+
+            closeImageZoom(overlay);
+
+        }
+
+    }
+
+});
+
+
 
 /* adding slider code 
 // =================== Slider ===================

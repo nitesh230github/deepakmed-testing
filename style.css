@@ -1034,6 +1034,99 @@ header{
 
 }
 
+
+
+
+/* =========================================================
+   PRODUCT IMAGE ZOOM OVERLAY
+========================================================= */
+
+.image-zoom-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.75);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:99999;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:opacity .2s ease;
+
+    cursor:zoom-out;
+
+}
+
+
+/* =========================================================
+   ACTIVE ZOOM OVERLAY
+========================================================= */
+
+.image-zoom-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+
+/* =========================================================
+   ZOOMED PRODUCT IMAGE
+========================================================= */
+
+.zoomed-image{
+
+    max-width:90vw;
+
+    max-height:90vh;
+
+    width:auto;
+
+    height:auto;
+
+    object-fit:contain;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:10px;
+
+    transform:scale(.8);
+
+    transition:transform .2s ease;
+
+    cursor:default;
+
+}
+
+
+/* =========================================================
+   ZOOM IMAGE ANIMATION
+========================================================= */
+
+.image-zoom-overlay.active .zoomed-image{
+
+    transform:scale(1);
+
+}
+
+
+
+
 /*=========================================================
                 MOBILE RESPONSIVE
 =========================================================*/
