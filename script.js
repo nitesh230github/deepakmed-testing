@@ -1112,21 +1112,44 @@ function openImageZoom(images){
     });
 
 
-    /* =====================================================
-       CLOSE ZOOM
-       -----------------------------------------------------
-       Clicking dark area outside viewer closes zoom.
-    ===================================================== */
+    /* =========================================================
+   CLOSE ZOOM WHEN CLICKING / TAPPING OUTSIDE VIEWER
+   ---------------------------------------------------------
+   - Main image par click  → kuch nahi hoga
+   - Thumbnail par click   → image change hogi
+   - Viewer ke empty area  → zoom close
+   - Screen ke kisi bhi
+     dark/empty area par    → zoom close
+   - Mobile tap bhi work karega
+    ========================================================= */
 
     overlay.addEventListener("click", function(event){
 
-        if(event.target === overlay){
+      const clickedImage =
+        event.target.closest(".zoomed-image");
 
-            closeImageZoom(overlay);
+      const clickedThumbnail =
+        event.target.closest(".zoom-sidebar-thumb");
 
-        }
+     /*  Large image ya thumbnail par click hua
+       to overlay close nahi hoga.
+      */
 
-    });
+        if(clickedImage || clickedThumbnail){
+
+          return;
+
+         }
+
+
+       /*
+       Baaki kahin bhi click hua:
+       zoom close.
+      */
+
+        closeImageZoom(overlay);
+
+     });
 
 }
 
