@@ -1131,7 +1131,7 @@ header{
 
 .zoom-sidebar{
 
-    position:static !important;
+    position:absolute !important;
 
     width:100% !important;
 
@@ -1768,8 +1768,8 @@ header{
 
     .zoom-sidebar{
 
-        position:static !important;
-
+        position:absolute !important;
+        
         width:100% !important;
 
         height:55px !important;
