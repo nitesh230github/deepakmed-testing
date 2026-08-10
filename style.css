@@ -1091,17 +1091,15 @@ header{
 
 
 /* =========================================================
-    ZOOM VIEWER
+   ZOOM VIEWER
    ---------------------------------------------------------
-   Layout:
-   Large Image
-        ↓
-   Thumbnail Strip
+   Main image + bottom thumbnail strip ke liye fixed
+   vertical layout.
 ========================================================= */
 
 .zoom-viewer{
 
-    position:relative;
+    position:relative !important;
 
     width:min(95vw,1400px);
 
@@ -1115,9 +1113,11 @@ header{
 
     justify-content:center;
 
-    gap:12px;
+    gap:10px;
 
     box-sizing:border-box;
+
+    overflow:hidden;
 
 }
 
@@ -1207,14 +1207,18 @@ header{
 
 
 /* =========================================================
-   LARGE MAIN IMAGE AREA
+   ZOOM MAIN IMAGE AREA
+   ---------------------------------------------------------
+   Thumbnail strip ke liye bottom me fixed space reserve
+   karta hai, taaki long/portrait images thumbnail ke
+   upar overlap na karein.
 ========================================================= */
 
 .zoom-main-image{
 
     width:100%;
 
-    height:calc(100% - 82px);
+    height:calc(100% - 75px);
 
     display:flex;
 
@@ -1224,33 +1228,32 @@ header{
 
     overflow:hidden;
 
+    flex-shrink:0;
+
     box-sizing:border-box;
 
 }
 
 /* =========================================================
-   LARGE PRODUCT zoomed IMAGE
+   ZOOMED PRODUCT IMAGE
+   ---------------------------------------------------------
+   Portrait / landscape dono images available area ke
+   andar contain hongi.
 ========================================================= */
 
 .zoomed-image{
 
     display:block;
 
-    max-width:100%;
-
-    max-height:100%;
-
     width:auto;
 
     height:auto;
 
+    max-width:100%;
+
+    max-height:100%;
+
     object-fit:contain;
-
-    border-radius:8px;
-
-    background:white;
-
-    padding:3px;
 
     box-sizing:border-box;
 
