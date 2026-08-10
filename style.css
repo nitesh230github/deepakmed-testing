@@ -1126,6 +1126,51 @@ header{
 
 
 
+/* =========================================================
+   MULTIPLE IMAGE BADGE
+   Shows number of images available for a product.
+   Only appears when product has 2 or more images.
+========================================================= */
+
+.product-image{
+
+    position:relative;
+
+}
+
+
+/* =========================================================
+   IMAGE COUNT BADGE
+========================================================= */
+
+.multiple-image-badge{
+
+    position:absolute;
+
+    right:6px;
+
+    bottom:6px;
+
+    background:rgba(0,0,0,.65);
+
+    color:white;
+
+    padding:4px 7px;
+
+    border-radius:999px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    line-height:1;
+
+    pointer-events:none;
+
+}
+
+
+
 
 /*=========================================================
                 MOBILE RESPONSIVE

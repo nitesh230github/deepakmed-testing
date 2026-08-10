@@ -266,145 +266,249 @@ function displayProducts(items){
 
     items.forEach(product => {
 
+        // =====================================================
+        // CHECK CART QUANTITY
+        // =====================================================
+
         let cartItem = cart.find(item => item.id === product.id);
+
         let qty = cartItem ? cartItem.qty : 0;
 
-        html += `
 
-<!-- =====================================================
-     PRODUCT CARD (Click/Tap image to open zoom view)
-===================================================== -->
+        // =====================================================
+        // PRODUCT IMAGE LIST
+        //
+        // New products:
+        // product.images = ["image1.jpg", "image2.jpg"]
+        //
+        // Old products:
+        // product.image = "image.jpg"
+        //
+        // This keeps old products working normally.
+        // =====================================================
 
-<div class="card">
+        let productImages =
+            Array.isArray(product.images) && product.images.length > 0
+                ? product.images
+                : [product.image];
 
-    <!-- =====================================================
-         LEFT SECTION (PRODUCT IMAGE)
-    ====================================================== -->
 
-    <div class="product-left">
+        // =====================================================
+        // MAIN IMAGE
+        // First image will be shown on product card.
+        // =====================================================
 
-        <div class="product-image">
+        let mainImage = productImages[0];
 
-           <img
-               src="${product.image}"
-               alt="${product.name}"
-               class="zoomable-image"
-               onclick="openImageZoom('${product.image}')">
 
-        </div>
+        // =====================================================
+        // MULTIPLE IMAGE BADGE
+        //
+        // Badge will ONLY appear when product has more
+        // than one image.
+        // =====================================================
 
-    </div>
+        let imageBadge = "";
 
-    <!-- =====================================================
-         RIGHT SECTION (PRODUCT DETAILS)
-    ====================================================== -->
+        if(productImages.length > 1){
 
-    <div class="product-right">
+            imageBadge = `
 
-        <!-- Product Name -->
+                <div class="multiple-image-badge">
 
-        <div class="product-title">
-
-            <h3>${product.name}</h3>
-
-        </div>
-
-        <!-- Product Information -->
-
-        <div class="product-meta">
-
-            <div class="info-row">
-
-                <!-- Left -->
-
-                <div class="info-left">
-
-                    <p class="packing">
-                        Pack : ${product.packing}
-                    </p>
-
-                    <p class="company">
-                        Mfg/Mkt : ${product.company}
-                    </p>
+                    📷 ${productImages.length}
 
                 </div>
 
-                <!-- Right -->
+            `;
 
-                <div class="info-right">
+        }
 
-                    <span class="mrp-price">
-                        ₹ ${product.price}
-                    </span>
 
-                    <span class="mrp-text">
-                        MRP
-                    </span>
+        // =====================================================
+        // PRODUCT CARD
+        // =====================================================
+
+        html += `
+
+        <div class="card">
+
+
+            <!-- =================================================
+                 LEFT SECTION - PRODUCT IMAGE
+            ================================================== -->
+
+            <div class="product-left">
+
+                <div class="product-image">
+
+                    <img
+                        src="${mainImage}"
+                        alt="${product.name}"
+                        class="zoomable-image"
+                        onclick='openImageZoom(${JSON.stringify(productImages)})'>
+
+
+                    <!-- =========================================
+                         MULTIPLE IMAGE INDICATOR
+                         Only visible when multiple images exist.
+                    ========================================== -->
+
+                    ${imageBadge}
 
                 </div>
 
             </div>
 
-        </div>
 
-        <!-- =====================================================
-             ADD TO CART / QUANTITY SELECTOR
-        ====================================================== -->
+            <!-- =================================================
+                 RIGHT SECTION - PRODUCT DETAILS
+            ================================================== -->
 
-        ${
-            qty === 0
+            <div class="product-right">
 
-            ? `
 
-                <button onclick="addToCart(${product.id})">
+                <!-- =============================================
+                     PRODUCT NAME
+                ============================================== -->
 
-                    Add to Cart
+                <div class="product-title">
 
-                </button>
+                    <h3>${product.name}</h3>
 
-              `
+                </div>
 
-            : `
 
-                <div class="qty-box">
+                <!-- =============================================
+                     PRODUCT INFORMATION
+                ============================================== -->
 
-                    <div class="qty-btn minus"
-                        onclick="decreaseQtyById(${product.id})">
+                <div class="product-meta">
 
-                        &minus;
+                    <div class="info-row">
 
-                    </div>
 
-                    <div class="qty-value">
+                        <!-- LEFT SIDE
+                             Packing + Manufacturer
+                        -->
 
-                        ${qty}
+                        <div class="info-left">
 
-                    </div>
+                            <p class="packing">
 
-                    <div class="qty-btn plus"
-                        onclick="increaseQtyById(${product.id})">
+                                Pack : ${product.packing}
 
-                        &plus;
+                            </p>
+
+
+                            <p class="company">
+
+                                Mfg/Mkt : ${product.company}
+
+                            </p>
+
+                        </div>
+
+
+                        <!-- RIGHT SIDE
+                             Price + MRP
+                        -->
+
+                        <div class="info-right">
+
+                            <span class="mrp-price">
+
+                                ₹ ${product.price}
+
+                            </span>
+
+
+                            <span class="mrp-text">
+
+                                MRP
+
+                            </span>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-              `
-        }
 
-    </div>
+                <!-- =================================================
+                     ADD TO CART / QUANTITY SELECTOR
+                ================================================== -->
 
-</div>
+                ${
+                    qty === 0
 
-`;
+                    ?
+
+                    `
+
+                    <button
+                        onclick="addToCart(${product.id})">
+
+                        Add to Cart
+
+                    </button>
+
+                    `
+
+                    :
+
+                    `
+
+                    <div class="qty-box">
+
+
+                        <div
+                            class="qty-btn minus"
+                            onclick="decreaseQtyById(${product.id})">
+
+                            &minus;
+
+                        </div>
+
+
+                        <div class="qty-value">
+
+                            ${qty}
+
+                        </div>
+
+
+                        <div
+                            class="qty-btn plus"
+                            onclick="increaseQtyById(${product.id})">
+
+                            &plus;
+
+                        </div>
+
+                    </div>
+
+                    `
+
+                }
+
+            </div>
+
+        </div>
+
+        `;
 
     });
+
+
+    // =========================================================
+    // DISPLAY PRODUCTS
+    // =========================================================
 
     document.getElementById("products").innerHTML = html;
 
 }
-
 function addToCart(id){
 
     const product = products.find(p => p.id === id);
