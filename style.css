@@ -1133,11 +1133,19 @@ header{
 
     position:absolute !important;
 
-    width:100% !important;
+    top:auto !important;
 
-    height:60px !important;
+    left:50% !important;
 
-    min-height:60px;
+    right:auto !important;
+
+    bottom:10px !important;
+
+    transform:translateX(-50%) !important;
+
+    width:auto !important;
+
+    height:auto !important;
 
     display:flex !important;
 
@@ -1147,63 +1155,25 @@ header{
 
     justify-content:center !important;
 
-    gap:10px;
+    gap:8px;
 
-    padding:0;
+    margin:0 !important;
 
-    margin:0;
+    padding:0 !important;
 
-    box-sizing:border-box;
+    z-index:100000;
 
-    overflow-x:auto;
-
-    overflow-y:hidden;
-
-    flex-shrink:0;
-
-}
-
-/* =========================================================
-   INDIVIDUAL THUMBNAIL
-========================================================= */
+ }
 
 .zoom-sidebar-thumb{
 
-    position:static !important;
-
-    width:55px !important;
-
-    height:55px !important;
-
-    min-width:55px;
-
-    min-height:55px;
-
-    display:flex !important;
-
-    align-items:center;
-
-    justify-content:center;
+   position:static !important;
 
     flex-shrink:0;
 
-    padding:2px;
+    margin:0 !important;
 
-    margin:0;
-
-    background:white;
-
-    border:2px solid transparent;
-
-    border-radius:7px;
-
-    overflow:hidden;
-
-    cursor:pointer;
-
-    box-sizing:border-box;
-
-}
+ }
 
 
 
@@ -1763,18 +1733,26 @@ header{
 
  /* -----------------------------------------------------
        Mobile bottom thumbnail strip
-       ALWAYS CENTERED
+       Same bottom-center position.
     ----------------------------------------------------- */
 
-    .zoom-sidebar{
+     .zoom-sidebar{
 
         position:absolute !important;
-        
-        width:100% !important;
 
-        height:55px !important;
+        top:auto !important;
 
-        min-height:55px;
+        left:50% !important;
+
+        right:auto !important;
+
+        bottom:8px !important;
+
+        transform:translateX(-50%) !important;
+
+        width:auto !important;
+
+        height:auto !important;
 
         display:flex !important;
 
@@ -1785,10 +1763,6 @@ header{
         justify-content:center !important;
 
         gap:7px;
-
-        overflow-x:auto;
-
-        overflow-y:hidden;
 
     }
 
