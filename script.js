@@ -287,9 +287,9 @@ function displayProducts(items){
 
             <img
                 src="${product.image}"
-                alt="${product.name}"> 
-                class="zoomable-image"                     <!-- (Click/Tap image to open zoom view) -->
-             onclick="openImageZoom('${product.image}')">
+                alt="${product.name}"
+                class="zoomable-image"                   <!-- ===(Click/Tap image to open zoom view)=== -->     
+                onclick="openImageZoom('${product.image}')">
 
 
         </div>
