@@ -2241,7 +2241,7 @@
     "saltContent": "Cefixime 200mg",
     "uses": "Bacterial infections",
     "bestseller": true,
-    "image": "images/taxim_o_200_tab.jpg"
+    "images": ["images/taxim_o_200_tab_box.jpg", "images/taxim.jpg"]
   },
   {
     "id": 231,
