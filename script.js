@@ -939,23 +939,30 @@ function closeCart(){
 
 
 /* =========================================================
-   PRODUCT IMAGE ZOOM
+   PRODUCT IMAGE ZOOM / AMAZON STYLE VIEWER
    ---------------------------------------------------------
-   - Single image products ko support karta hai
-   - Multiple image products ko support karta hai
-   - Left side me image thumbnails dikhata hai
-   - Thumbnail click karne par main image change hoti hai
-   - Overlay ke bahar click karne par zoom close hota hai
+   Features:
+   - One large image at a time
+   - Small thumbnails on left side
+   - Thumbnail click changes large image
+   - Image stays inside screen
+   - Outside area click closes zoom
 ========================================================= */
 
 function openImageZoom(images){
 
 
     /* =====================================================
-       MAKE SURE IMAGES IS ALWAYS AN ARRAY
+       SUPPORT SINGLE IMAGE + MULTIPLE IMAGES
        -----------------------------------------------------
-       Agar old product se ek single image string aaye,
-       to usko automatically array me convert karenge.
+       Old product:
+       openImageZoom("images/product.jpg")
+
+       New product:
+       openImageZoom([
+           "images/front.jpg",
+           "images/back.jpg"
+       ])
     ===================================================== */
 
     if(!Array.isArray(images)){
@@ -966,7 +973,7 @@ function openImageZoom(images){
 
 
     /* =====================================================
-       CREATE FULL-SCREEN OVERLAY
+       CREATE OVERLAY
     ===================================================== */
 
     const overlay = document.createElement("div");
@@ -975,10 +982,10 @@ function openImageZoom(images){
 
 
     /* =====================================================
-       CREATE ZOOM VIEWER
+       CREATE AMAZON-STYLE VIEWER
        -----------------------------------------------------
        Left  = thumbnails
-       Right = large image
+       Right = one large image
     ===================================================== */
 
     overlay.innerHTML = `
@@ -987,7 +994,7 @@ function openImageZoom(images){
 
 
             <!-- =================================================
-                 IMAGE THUMBNAIL SIDEBAR
+                 LEFT THUMBNAIL SIDEBAR
             ================================================== -->
 
             <div class="zoom-sidebar">
@@ -1003,7 +1010,7 @@ function openImageZoom(images){
 
                             <img
                                 src="${image}"
-                                alt="Product Image ${index + 1}">
+                                alt="Product image ${index + 1}">
 
                         </div>
 
@@ -1014,7 +1021,8 @@ function openImageZoom(images){
 
 
             <!-- =================================================
-                 MAIN ZOOMED IMAGE
+                 LARGE IMAGE AREA
+                 ONLY ONE IMAGE IS DISPLAYED HERE
             ================================================== -->
 
             <div class="zoom-main-image">
@@ -1033,28 +1041,25 @@ function openImageZoom(images){
 
 
     /* =====================================================
-       ADD OVERLAY TO PAGE
+       ADD OVERLAY TO BODY
     ===================================================== */
 
     document.body.appendChild(overlay);
 
 
     /* =====================================================
-       SMALL DELAY
-       -----------------------------------------------------
-       CSS transition / animation ko properly trigger
-       karne ke liye.
+       START OVERLAY ANIMATION
     ===================================================== */
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
 
         overlay.classList.add("active");
 
-    }, 10);
+    });
 
 
     /* =====================================================
-       MAIN ZOOM IMAGE
+       GET MAIN IMAGE
     ===================================================== */
 
     const mainImage =
@@ -1062,7 +1067,7 @@ function openImageZoom(images){
 
 
     /* =====================================================
-       ALL SIDEBAR THUMBNAILS
+       GET ALL THUMBNAILS
     ===================================================== */
 
     const thumbnails =
@@ -1072,25 +1077,24 @@ function openImageZoom(images){
     /* =====================================================
        THUMBNAIL CLICK
        -----------------------------------------------------
-       Click karne par selected image main area me show hogi.
+       Only main image changes.
+       Other images are NOT added to screen.
     ===================================================== */
 
     thumbnails.forEach(thumbnail => {
 
         thumbnail.addEventListener("click", function(event){
 
-            /* Prevent overlay click */
-
             event.stopPropagation();
 
 
-            /* Change main image */
+            /* Change large image */
 
             mainImage.src =
                 this.dataset.image;
 
 
-            /* Remove active border from all thumbnails */
+            /* Remove active border */
 
             thumbnails.forEach(item => {
 
@@ -1099,7 +1103,7 @@ function openImageZoom(images){
             });
 
 
-            /* Add active border */
+            /* Highlight selected thumbnail */
 
             this.classList.add("active");
 
@@ -1111,8 +1115,7 @@ function openImageZoom(images){
     /* =====================================================
        CLOSE ZOOM
        -----------------------------------------------------
-       Sirf overlay ke empty area par click karne se close.
-       Image/sidebar par click karne se close nahi hoga.
+       Clicking dark area outside viewer closes zoom.
     ===================================================== */
 
     overlay.addEventListener("click", function(event){
@@ -1127,21 +1130,6 @@ function openImageZoom(images){
 
 }
 
-/* =========================================================
-   CLOSE IMAGE ZOOM
-========================================================= */
-
-function closeImageZoom(overlay){
-
-    overlay.classList.remove("active");
-
-    setTimeout(() => {
-
-        overlay.remove();
-
-    }, 200);
-
-}
 
 
 /* =========================================================
