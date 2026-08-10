@@ -940,29 +940,112 @@ function closeCart(){
 
 /* =========================================================
    PRODUCT IMAGE ZOOM
-   Opens product image in full-screen overlay
+   ---------------------------------------------------------
+   - Single image products ko support karta hai
+   - Multiple image products ko support karta hai
+   - Left side me image thumbnails dikhata hai
+   - Thumbnail click karne par main image change hoti hai
+   - Overlay ke bahar click karne par zoom close hota hai
 ========================================================= */
 
-function openImageZoom(imageSrc){
+function openImageZoom(images){
 
-    // Create overlay
+
+    /* =====================================================
+       MAKE SURE IMAGES IS ALWAYS AN ARRAY
+       -----------------------------------------------------
+       Agar old product se ek single image string aaye,
+       to usko automatically array me convert karenge.
+    ===================================================== */
+
+    if(!Array.isArray(images)){
+
+        images = [images];
+
+    }
+
+
+    /* =====================================================
+       CREATE FULL-SCREEN OVERLAY
+    ===================================================== */
+
     const overlay = document.createElement("div");
 
     overlay.className = "image-zoom-overlay";
 
+
+    /* =====================================================
+       CREATE ZOOM VIEWER
+       -----------------------------------------------------
+       Left  = thumbnails
+       Right = large image
+    ===================================================== */
+
     overlay.innerHTML = `
-    
-        <img
-            src="${imageSrc}"
-            class="zoomed-image"
-            alt="Product Image">
+
+        <div class="zoom-viewer">
+
+
+            <!-- =================================================
+                 IMAGE THUMBNAIL SIDEBAR
+            ================================================== -->
+
+            <div class="zoom-sidebar">
+
+                ${
+                    images.map((image, index) => `
+
+                        <div
+                            class="zoom-sidebar-thumb ${
+                                index === 0 ? "active" : ""
+                            }"
+                            data-image="${image}">
+
+                            <img
+                                src="${image}"
+                                alt="Product Image ${index + 1}">
+
+                        </div>
+
+                    `).join("")
+                }
+
+            </div>
+
+
+            <!-- =================================================
+                 MAIN ZOOMED IMAGE
+            ================================================== -->
+
+            <div class="zoom-main-image">
+
+                <img
+                    src="${images[0]}"
+                    class="zoomed-image"
+                    alt="Product Image">
+
+            </div>
+
+
+        </div>
 
     `;
 
-    // Add overlay to page
+
+    /* =====================================================
+       ADD OVERLAY TO PAGE
+    ===================================================== */
+
     document.body.appendChild(overlay);
 
-    // Small delay so CSS transition works
+
+    /* =====================================================
+       SMALL DELAY
+       -----------------------------------------------------
+       CSS transition / animation ko properly trigger
+       karne ke liye.
+    ===================================================== */
+
     setTimeout(() => {
 
         overlay.classList.add("active");
@@ -970,9 +1053,67 @@ function openImageZoom(imageSrc){
     }, 10);
 
 
-    /* -----------------------------------------------------
-       Close when user clicks outside the image
-    ----------------------------------------------------- */
+    /* =====================================================
+       MAIN ZOOM IMAGE
+    ===================================================== */
+
+    const mainImage =
+        overlay.querySelector(".zoomed-image");
+
+
+    /* =====================================================
+       ALL SIDEBAR THUMBNAILS
+    ===================================================== */
+
+    const thumbnails =
+        overlay.querySelectorAll(".zoom-sidebar-thumb");
+
+
+    /* =====================================================
+       THUMBNAIL CLICK
+       -----------------------------------------------------
+       Click karne par selected image main area me show hogi.
+    ===================================================== */
+
+    thumbnails.forEach(thumbnail => {
+
+        thumbnail.addEventListener("click", function(event){
+
+            /* Prevent overlay click */
+
+            event.stopPropagation();
+
+
+            /* Change main image */
+
+            mainImage.src =
+                this.dataset.image;
+
+
+            /* Remove active border from all thumbnails */
+
+            thumbnails.forEach(item => {
+
+                item.classList.remove("active");
+
+            });
+
+
+            /* Add active border */
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+
+    /* =====================================================
+       CLOSE ZOOM
+       -----------------------------------------------------
+       Sirf overlay ke empty area par click karne se close.
+       Image/sidebar par click karne se close nahi hoga.
+    ===================================================== */
 
     overlay.addEventListener("click", function(event){
 
@@ -985,7 +1126,6 @@ function openImageZoom(imageSrc){
     });
 
 }
-
 
 /* =========================================================
    CLOSE IMAGE ZOOM
