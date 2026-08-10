@@ -1130,7 +1130,32 @@ function openImageZoom(images){
 
 }
 
+/* =========================================================
+   CLOSE PRODUCT IMAGE ZOOM
+   ---------------------------------------------------------
+   Zoom overlay ko smoothly close karta hai.
+========================================================= */
 
+function closeImageZoom(overlay){
+
+    /* Remove active class for closing animation */
+
+    overlay.classList.remove("active");
+
+
+    /* Wait for CSS fade-out animation */
+
+    setTimeout(() => {
+
+        if(overlay && overlay.parentNode){
+
+            overlay.parentNode.removeChild(overlay);
+
+        }
+
+    }, 250);
+
+}
 
 /* =========================================================
    ESC KEY CLOSE
