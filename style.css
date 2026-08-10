@@ -1826,3 +1826,129 @@ header{
 }*/
 
 }
+
+/* =========================================================
+   DESKTOP ZOOM THUMBNAILS
+   ---------------------------------------------------------
+   Thumbnail images ko fixed small size me rakhta hai.
+   Main zoomed image ko affect nahi karta.
+========================================================= */
+
+.zoom-sidebar{
+
+    position:absolute !important;
+
+    left:50% !important;
+
+    bottom:10px !important;
+
+    top:auto !important;
+
+    right:auto !important;
+
+    transform:translateX(-50%) !important;
+
+    width:auto !important;
+
+    height:65px !important;
+
+    display:flex !important;
+
+    flex-direction:row !important;
+
+    align-items:center !important;
+
+    justify-content:center !important;
+
+    gap:8px;
+
+    margin:0 !important;
+
+    padding:0 !important;
+
+    z-index:100000;
+
+}
+
+
+/* =========================================================
+   DESKTOP THUMBNAIL BOX
+========================================================= */
+
+.zoom-sidebar-thumb{
+
+    width:55px !important;
+
+    height:55px !important;
+
+    min-width:55px !important;
+
+    min-height:55px !important;
+
+    max-width:55px !important;
+
+    max-height:55px !important;
+
+    flex:0 0 55px !important;
+
+    position:static !important;
+
+    display:flex !important;
+
+    align-items:center !important;
+
+    justify-content:center !important;
+
+    padding:2px !important;
+
+    margin:0 !important;
+
+    box-sizing:border-box;
+
+    overflow:hidden !important;
+
+    background:#fff;
+
+    border-radius:6px;
+
+}
+
+
+/* =========================================================
+   DESKTOP THUMBNAIL IMAGE
+   ---------------------------------------------------------
+   IMPORTANT:
+   Thumbnail ke andar image kabhi bhi original
+   large size me nahi jayegi.
+========================================================= */
+
+.zoom-sidebar-thumb img{
+
+    width:100% !important;
+
+    height:100% !important;
+
+    max-width:100% !important;
+
+    max-height:100% !important;
+
+    min-width:0 !important;
+
+    min-height:0 !important;
+
+    object-fit:contain !important;
+
+    display:block !important;
+
+}
+
+
+/* =========================================================
+   ACTIVE THUMBNAIL
+========================================================= */
+
+.zoom-sidebar-thumb.active{
+
+    border:2px solid #168b80 !important;
+
+}
