@@ -7,6 +7,9 @@
     --color-primary:#0d6e6a;
     --color-primary-dark:#094f4c;
 
+    --color-cart:#3f6b8a;
+    --color-cart-dark:#2e5169;
+
     --color-accent:#16a34a;
     --color-accent-dark:#128a3e;
 
@@ -515,7 +518,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     height:36px;
 
-    background:var(--color-accent);
+    background:var(--color-cart);
 
     color:#fff;
 
@@ -535,7 +538,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 #products .card button:hover{
 
-    background:var(--color-accent-dark);
+    background:var(--color-cart-dark);
 
     transform:translateY(-2px);
 
