@@ -1,4 +1,26 @@
 /*=========================================================
+                    COLOR THEME (CSS Variables)
+=========================================================*/
+
+:root{
+
+    --color-primary:#0d6e6a;
+    --color-primary-dark:#094f4c;
+
+    --color-accent:#16a34a;
+    --color-accent-dark:#128a3e;
+
+    --color-danger:#ef4444;
+    --color-danger-dark:#dc2626;
+
+    --color-bg:#f3f4f6;
+    --color-text:#1f2937;
+    --color-text-light:#6b7280;
+
+}
+
+
+/*=========================================================
                     GLOBAL RESET
 =========================================================*/
 
@@ -234,7 +256,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .cat-btn:hover{
 
-    background:#084f58;
+    background:var(--color-primary);
 
     color:#fff;
 
@@ -242,7 +264,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .cat-btn.active{
 
-    background:#084f58;
+    background:var(--color-primary);
 
     color:#fff;
 
@@ -493,7 +515,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     height:36px;
 
-    background:#00897b;
+    background:var(--color-accent);
 
     color:#fff;
 
@@ -513,7 +535,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 #products .card button:hover{
 
-    background:#00695c;
+    background:var(--color-accent-dark);
 
     transform:translateY(-2px);
 
@@ -573,7 +595,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     border-radius:50%;
 
-    background:#127fec;
+    background:var(--color-primary);
 
     color:#000;
 
@@ -591,7 +613,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .qty-btn:hover{
 
-    background:#0958d9;
+    background:var(--color-primary);
 
     transform:scale(1.08);
 
@@ -619,7 +641,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 #cartButton{
 
-    background:#2563eb;
+    background:var(--color-primary);
 
     color:#fff;
 
@@ -641,7 +663,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 #cartButton:hover{
 
-    background:#1d4ed8;
+    background:var(--color-primary);
 
 }
 
@@ -715,7 +737,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .close-btn{
 
-    background:#ef4444;
+    background:var(--color-danger);
 
     color:#fff;
 
@@ -735,7 +757,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .close-btn:hover{
 
-    background:#dc2626;
+    background:var(--color-danger-dark);
 
 }
 
@@ -905,7 +927,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     height:34px;
 
-    background:#127fec;
+    background:var(--color-primary);
 
     color:#fff;
 
@@ -953,7 +975,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     border-radius:50%;
 
-    background:#ef4444;
+    background:var(--color-danger);
 
     color:#fff;
 
@@ -965,7 +987,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .remove-btn:hover{
 
-    background:#dc2626;
+    background:var(--color-danger-dark);
 
 }
 
@@ -1019,7 +1041,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     height:46px;
 
-    background:#16a34a;
+    background:var(--color-accent);
 
     color:#fff;
 
@@ -1037,7 +1059,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 .order-btn:hover{
 
-    background:#15803d;
+    background:var(--color-accent-dark);
 
 }
 
