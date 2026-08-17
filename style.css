@@ -1362,21 +1362,23 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     justify-content:center;
 
-    width:48px;
+    width:62px;
 
-    height:48px;
+    height:62px;
 
-    font-size:24px;
+    font-size:30px;
 
     background:#fff;
 
     border-radius:50%;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
 
     text-decoration:none;
 
     flex-shrink:0;
+
+    margin-top:14px;
 
     animation:radio-bounce 2.5s ease-in-out infinite;
 
@@ -1400,7 +1402,7 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     border-radius:50%;
 
-    border:2px solid var(--color-whatsapp);
+    border:2px solid #fbbf24;
 
     animation:radio-ring 1.8s ease-out infinite;
 
@@ -1447,27 +1449,26 @@ header{
 
 .header-top{
 
-    flex-direction:column;
-
-    align-items:stretch;
-
-    gap:12px;
+    position:relative;
 
 }
+
 
 .radio-icon{
 
     position:absolute;
 
-    top:0;
+    top:10px;
 
     right:0;
 
-    width:40px;
+    width:52px;
 
-    height:40px;
+    height:52px;
 
-    font-size:20px;
+    font-size:24px;
+
+    margin-top:0;
 
 }
 
