@@ -13,6 +13,9 @@
     --color-accent:#16a34a;
     --color-accent-dark:#128a3e;
 
+    --color-whatsapp:#25d366;
+    --color-whatsapp-dark:#1da851;
+
     --color-danger:#ef4444;
     --color-danger-dark:#dc2626;
 
@@ -21,7 +24,6 @@
     --color-text-light:#6b7280;
 
 }
-
 
 /*=========================================================
                     GLOBAL RESET
@@ -1689,10 +1691,23 @@ header{
 
     border-radius:999px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.20);
+    box-shadow:0 8px 20px rgba(37,211,102,.35);
+
+    background:var(--color-whatsapp);
+
+    padding:16px 26px;
+
+    font-size:17px;
+
+    font-weight:700;
 
 }
 
+#cartButton:hover{
+
+    background:var(--color-whatsapp-dark);
+
+}
 
 /*=========================================================
                 CART
