@@ -1198,33 +1198,64 @@ document.addEventListener("keydown", function(event){
 
 
 /* =========================================================
-   MOBILE STICKY HEADER — HIDE LOGO ON SCROLL
+   MOBILE STICKY HEADER — HIDE LOGO ON SCROLL (No Flicker)
    ---------------------------------------------------------
-   Jab user scroll down karega (mobile pe), logo/brand
-   section hide ho jayega. Search bar + category buttons
-   hamesha visible rahenge (Flipkart/Amazon style).
+   HYSTERESIS LOGIC:
+   - Hide sirf tab hoga jab scroll HIDE_POINT se neeche jaaye
+   - Show sirf tab hoga jab scroll SHOW_POINT se upar aaye
+   - Beech ka gap ek "safe zone" hai jahan koi toggle nahi hota
+   - Isse boundary ke paas chhoti scroll jitter se flicker nahi hoga
 ========================================================= */
 
 const siteHeader = document.querySelector("header");
 
-window.addEventListener("scroll", () => {
+const HIDE_POINT = 80;   // isse neeche scroll → logo hide
+const SHOW_POINT = 40;   // isse upar scroll → logo show
+
+let isCompact = false;
+let ticking = false;
+
+function updateHeaderState(){
+
+    const scrollY = window.scrollY;
 
     if(window.innerWidth <= 768){
 
-        if(window.scrollY > 60){
+        if(!isCompact && scrollY > HIDE_POINT){
 
             siteHeader.classList.add("header-compact");
+            isCompact = true;
 
-        }else{
+        }
+        else if(isCompact && scrollY < SHOW_POINT){
 
             siteHeader.classList.remove("header-compact");
+            isCompact = false;
 
         }
 
     }
+    else{
+
+        siteHeader.classList.remove("header-compact");
+        isCompact = false;
+
+    }
+
+    ticking = false;
+
+}
+
+window.addEventListener("scroll", () => {
+
+    if(!ticking){
+
+        window.requestAnimationFrame(updateHeaderState);
+        ticking = true;
+
+    }
 
 });
-
 
 
 
