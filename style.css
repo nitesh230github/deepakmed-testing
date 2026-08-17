@@ -43,7 +43,7 @@ body{
 header{
 
     background:
-        linear-gradient(rgba(22,163,74,.30)),
+        linear-gradient(rgba(13,110,106,.35), rgba(13,110,106,.35)),
         url("images/website_images/header_banner.jpg");
 
     background-size:cover;
@@ -1981,6 +1981,6 @@ header{
 
 .zoom-sidebar-thumb.active{
 
-    border:2px solid #168b80 !important;
+    border:2px solid var(--color-primary) !important;
 
 }
