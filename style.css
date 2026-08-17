@@ -1449,7 +1449,11 @@ header{
 
 .header-top{
 
-    position:relative;
+    flex-direction:column;
+
+    align-items:stretch;
+
+    gap:12px;
 
 }
 
