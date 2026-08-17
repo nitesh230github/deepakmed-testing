@@ -1196,38 +1196,52 @@ document.addEventListener("keydown", function(event){
 
 });
 
-
 /* =========================================================
-   MOBILE STICKY HEADER — HIDE LOGO ON SCROLL (No Flicker)
+   MOBILE STICKY HEADER — HIDE LOGO ON SCROLL DIRECTION
    ---------------------------------------------------------
-   HYSTERESIS LOGIC:
-   - Hide sirf tab hoga jab scroll HIDE_POINT se neeche jaaye
-   - Show sirf tab hoga jab scroll SHOW_POINT se upar aaye
-   - Beech ka gap ek "safe zone" hai jahan koi toggle nahi hota
-   - Isse boundary ke paas chhoti scroll jitter se flicker nahi hoga
+   LOGIC:
+   - Neeche scroll (down) → logo hide
+   - Upar scroll (up) → logo show
+   - Chhota jitter (5px se kam movement) ignore hota hai
+   - Position/range ka koi role nahi — sirf DIRECTION matter karta hai
+   - Isse kisi bhi scroll position par flicker possible nahi
 ========================================================= */
 
 const siteHeader = document.querySelector("header");
 
-const HIDE_POINT = 80;   // isse neeche scroll → logo hide
-const SHOW_POINT = 40;   // isse upar scroll → logo show
-
+let lastScrollY = window.scrollY;
 let isCompact = false;
 let ticking = false;
+
+const MIN_MOVEMENT = 5;     // itna move hone par hi direction count hoga
+const TOP_SAFE_ZONE = 20;   // page ke bilkul top ke paas hamesha logo dikhega
 
 function updateHeaderState(){
 
     const scrollY = window.scrollY;
 
+    const diff = scrollY - lastScrollY;
+
     if(window.innerWidth <= 768){
 
-        if(!isCompact && scrollY > HIDE_POINT){
+        // Top ke paas hamesha logo visible rahega
+        if(scrollY < TOP_SAFE_ZONE){
+
+            if(isCompact){
+                siteHeader.classList.remove("header-compact");
+                isCompact = false;
+            }
+
+        }
+        // Neeche scroll ho raha hai (kam se kam MIN_MOVEMENT jitna) → hide
+        else if(diff > MIN_MOVEMENT && !isCompact){
 
             siteHeader.classList.add("header-compact");
             isCompact = true;
 
         }
-        else if(isCompact && scrollY < SHOW_POINT){
+        // Upar scroll ho raha hai → show
+        else if(diff < -MIN_MOVEMENT && isCompact){
 
             siteHeader.classList.remove("header-compact");
             isCompact = false;
@@ -1242,6 +1256,7 @@ function updateHeaderState(){
 
     }
 
+    lastScrollY = scrollY;
     ticking = false;
 
 }
@@ -1256,8 +1271,6 @@ window.addEventListener("scroll", () => {
     }
 
 });
-
-
 
 /* adding slider code 
 // =================== Slider ===================
