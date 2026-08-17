@@ -505,7 +505,9 @@ function addToCart(id){
 
             packing:product.packing,
 
-            image:product.image,
+            image: (Array.isArray(product.images) && product.images.length > 0)   /* firstly it checks image or images[] in  products.json */
+                ? product.images[0]                                              
+                : product.image,
 
             price:product.price,
 
