@@ -1348,7 +1348,85 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 }
 
+/*=========================================================
+                    RADIO ICON (Animated)
+=========================================================*/
 
+.radio-icon{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:48px;
+
+    height:48px;
+
+    font-size:24px;
+
+    background:#fff;
+
+    border-radius:50%;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+
+    text-decoration:none;
+
+    flex-shrink:0;
+
+    animation:radio-bounce 2.5s ease-in-out infinite;
+
+    transition:transform .2s ease;
+
+}
+
+.radio-icon:hover{
+
+    transform:scale(1.1);
+
+}
+
+/* Pulsing ring effect */
+
+.radio-pulse{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    border:2px solid var(--color-whatsapp);
+
+    animation:radio-ring 1.8s ease-out infinite;
+
+    pointer-events:none;
+
+}
+
+@keyframes radio-bounce{
+
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-3px); }
+
+}
+
+@keyframes radio-ring{
+
+    0%{
+        transform:scale(1);
+        opacity:.7;
+    }
+    100%{
+        transform:scale(1.6);
+        opacity:0;
+    }
+
+}
 
 
 /*=========================================================
@@ -1374,6 +1452,22 @@ header{
     align-items:stretch;
 
     gap:12px;
+
+}
+
+.radio-icon{
+
+    position:absolute;
+
+    top:0;
+
+    right:0;
+
+    width:40px;
+
+    height:40px;
+
+    font-size:20px;
 
 }
 
