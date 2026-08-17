@@ -34,6 +34,17 @@ function shuffleArray(array){
 
 }
 
+/*  Jab tak customer typing continue karta hai, function call hold rehta hai. 
+Typing rukne ke 300ms baad hi search chalega — isse har keystroke pe re-render/reshuffle nahi hoga. */
+
+function debounce(func, delay){
+    let timer;
+    return function(...args){
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
 /* To Normalize the text, Original : tea/tree. Normalize : teatree  */
 function normalizeText(text){
 
@@ -114,8 +125,8 @@ function getSearchScore(product, rawSearch){
 }  */
 
 let products = [];
-
-let currentProducts = [];    // global variable to store currently displayed order
+let currentProducts = [];    // currently displayed/filtered products
+let displayOrder = [];       // stable shuffled order — sirf ek baar set hota hai
 
 fetch("products.json")
 .then(response => response.json())
@@ -133,10 +144,12 @@ fetch("products.json")
 
  otherProducts = shuffleArray(otherProducts);
 
- currentProducts = [
+ displayOrder = [
     ...bestSellers,
     ...otherProducts
-   ] ;
+   ];
+
+ currentProducts = displayOrder;
 
  displayProducts(currentProducts);
 
@@ -144,7 +157,7 @@ fetch("products.json")
 
 
     document.getElementById("search")
-    .addEventListener("keyup", filterProducts);
+    .addEventListener("keyup", debounce(filterProducts, 300));
 
     document.getElementById("categoryFilter")
     .addEventListener("change", filterProducts);
@@ -152,59 +165,21 @@ fetch("products.json")
 });
 
 
+/*  Pehle: har search/filter call pe naya shuffleArray() chalta tha → products jump/reorder hote the
+Ab: displayOrder (jo load pe ek baar shuffle hui thi) se sirf .filter() kiya jaa raha hai → order stable rehta hai, bestsellers hamesha top pe rehte hain, 
+aur search jaldi (koi extra shuffle overhead nahi) chalta hai */
+
 function filterProducts() {
 
-    let rawSearch = document.getElementById('search').value;    // raw search value stored
-
-    let searchValue = normalizeText(rawSearch);                // normalized search text stored
+    let rawSearch = document.getElementById('search').value;
 
     let categoryValue =
     document.getElementById("categoryFilter").value;
 
-    let filtered;
-
-    if(categoryValue === "ALL"){
-
-        let bestSellers =
-        products.filter(product =>
-            product.bestseller &&
-            matchesSearch(product, rawSearch)
-        );
-        bestSellers = shuffleArray(bestSellers);
-        
-        let otherProducts =
-        products.filter(product =>
-            !product.bestseller &&
-            matchesSearch(product, rawSearch)
-        );
-
-        otherProducts = shuffleArray(otherProducts);
-
-        filtered = [
-            ...bestSellers,
-            ...otherProducts
-        ];
-
-    }
-    else{
-
-     filtered = products.filter(product =>
-            product.category === categoryValue &&
-            matchesSearch(product, rawSearch)
-
-        );
-
-        filtered = shuffleArray(filtered);
-
-    }
-    
-
-    /* priorty to search text
-   filtered.sort((a,b)=>
-     getSearchScore(b,rawSearch) -
-     getSearchScore(a,rawSearch)
-
-    );  */
+    let filtered = displayOrder.filter(product =>
+        (categoryValue === "ALL" || product.category === categoryValue) &&
+        matchesSearch(product, rawSearch)
+    );
 
  currentProducts = filtered;
 
@@ -227,7 +202,6 @@ function filterProducts() {
  }
 
  }
-
 
 function selectCategory(category,button){
 
