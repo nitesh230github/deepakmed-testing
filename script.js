@@ -1197,6 +1197,36 @@ document.addEventListener("keydown", function(event){
 });
 
 
+/* =========================================================
+   MOBILE STICKY HEADER — HIDE LOGO ON SCROLL
+   ---------------------------------------------------------
+   Jab user scroll down karega (mobile pe), logo/brand
+   section hide ho jayega. Search bar + category buttons
+   hamesha visible rahenge (Flipkart/Amazon style).
+========================================================= */
+
+const siteHeader = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+
+    if(window.innerWidth <= 768){
+
+        if(window.scrollY > 60){
+
+            siteHeader.classList.add("header-compact");
+
+        }else{
+
+            siteHeader.classList.remove("header-compact");
+
+        }
+
+    }
+
+});
+
+
+
 
 /* adding slider code 
 // =================== Slider ===================

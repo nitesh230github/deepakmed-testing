@@ -1860,6 +1860,47 @@ header{
 
 }*/
 
+/*=========================================================
+                MOBILE STICKY HEADER — COMPACT MODE
+=========================================================*/
+
+.logo-section{
+
+    max-height:200px;
+
+    overflow:hidden;
+
+    opacity:1;
+
+    transition:max-height .3s ease,
+               opacity .25s ease,
+               margin .3s ease;
+
+}
+
+header.header-compact{
+
+    padding-top:8px;
+
+    padding-bottom:8px;
+
+    transition:padding .3s ease;
+
+}
+
+header.header-compact .logo-section{
+
+    max-height:0;
+
+    opacity:0;
+
+    margin:0;
+
+    pointer-events:none;
+
+}
+
+
 }
 
 /* =========================================================
