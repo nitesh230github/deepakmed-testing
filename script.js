@@ -162,6 +162,18 @@ fetch("products.json")
     document.getElementById("categoryFilter")
     .addEventListener("change", filterProducts);
 
+})                                                         /* if fetch fail ho or JSON invalid, customer will see mesage instead of blank screen, */
+                                                           /* & error log will be in console(for debugging) */
+
+.catch(error => {
+
+    console.error("Products load failed:", error);
+
+    document.getElementById("products").innerHTML =
+        `<p style="padding:20px;text-align:center;color:#666;">
+            ⚠️ Products load nahi ho paaye. Please page refresh karein.
+        </p>`;
+
 });
 
 
@@ -851,6 +863,8 @@ fetch("https://script.google.com/macros/s/AKfycbwVDN0OlZ5srpTFPFEIR0O0B43Oe5vcHa
 
 method:"POST",
 
+mode:"no-cors",
+
 body:JSON.stringify({
 
 secret:"DeepakMedical2026",
@@ -866,6 +880,11 @@ products:productList,
 total:total.toFixed(2)
 
 })
+
+})
+.catch(error => {
+
+    console.error("Order log to Sheet failed:", error);
 
 });
     window.open(
