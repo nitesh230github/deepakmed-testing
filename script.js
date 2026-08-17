@@ -1199,12 +1199,9 @@ document.addEventListener("keydown", function(event){
 /* =========================================================
    MOBILE STICKY HEADER — HIDE LOGO ON SCROLL DIRECTION
    ---------------------------------------------------------
-   LOGIC:
-   - Neeche scroll (down) → logo hide
-   - Upar scroll (up) → logo show
-   - Chhota jitter (5px se kam movement) ignore hota hai
-   - Position/range ka koi role nahi — sirf DIRECTION matter karta hai
-   - Isse kisi bhi scroll position par flicker possible nahi
+   Transition ke dauraan (300ms) naye scroll events ko
+   ignore karta hai — isse layout-shift se hone wala
+   feedback loop / flicker nahi hota.
 ========================================================= */
 
 const siteHeader = document.querySelector("header");
@@ -1212,9 +1209,31 @@ const siteHeader = document.querySelector("header");
 let lastScrollY = window.scrollY;
 let isCompact = false;
 let ticking = false;
+let locked = false;
 
-const MIN_MOVEMENT = 5;     // itna move hone par hi direction count hoga
-const TOP_SAFE_ZONE = 20;   // page ke bilkul top ke paas hamesha logo dikhega
+const MIN_MOVEMENT = 8;
+const TOP_SAFE_ZONE = 20;
+const TRANSITION_TIME = 320;   // CSS transition (.3s) se thoda zyada
+
+function setCompact(state){
+
+    if(state === isCompact) return;
+
+    isCompact = state;
+
+    if(state){
+        siteHeader.classList.add("header-compact");
+    }else{
+        siteHeader.classList.remove("header-compact");
+    }
+
+    locked = true;
+
+    setTimeout(() => {
+        locked = false;
+    }, TRANSITION_TIME);
+
+}
 
 function updateHeaderState(){
 
@@ -1222,37 +1241,23 @@ function updateHeaderState(){
 
     const diff = scrollY - lastScrollY;
 
-    if(window.innerWidth <= 768){
+    if(window.innerWidth <= 768 && !locked){
 
-        // Top ke paas hamesha logo visible rahega
         if(scrollY < TOP_SAFE_ZONE){
 
-            if(isCompact){
-                siteHeader.classList.remove("header-compact");
-                isCompact = false;
-            }
+            setCompact(false);
 
         }
-        // Neeche scroll ho raha hai (kam se kam MIN_MOVEMENT jitna) → hide
-        else if(diff > MIN_MOVEMENT && !isCompact){
+        else if(diff > MIN_MOVEMENT){
 
-            siteHeader.classList.add("header-compact");
-            isCompact = true;
+            setCompact(true);
 
         }
-        // Upar scroll ho raha hai → show
-        else if(diff < -MIN_MOVEMENT && isCompact){
+        else if(diff < -MIN_MOVEMENT){
 
-            siteHeader.classList.remove("header-compact");
-            isCompact = false;
+            setCompact(false);
 
         }
-
-    }
-    else{
-
-        siteHeader.classList.remove("header-compact");
-        isCompact = false;
 
     }
 
@@ -1270,7 +1275,7 @@ window.addEventListener("scroll", () => {
 
     }
 
-});
+}, { passive:true });
 
 /* adding slider code 
 // =================== Slider ===================
