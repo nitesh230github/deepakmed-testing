@@ -2857,7 +2857,7 @@
   },
   {
     "id": 304,
-    "name": "TAXIM O 200 30ML SYP",
+    "name": "TAXIM O 200 SYP",
     "company": "ALKEM",
     "price": 153.6,
     "category": "LIQUID",
@@ -2865,11 +2865,11 @@
     "saltContent": "Cefixime 200mg/5ml",
     "uses": "Antibiotic  ear/throat/UTI/respiratory bacterial infections",
     "bestseller": false,
-    "image": "images/zedex_syp_1.jpg"
+    "image": "images/taxim_o_200_syp.webp"
   },
   {
     "id": 305,
-    "name": "TAXIM O FORTE 30ML SYP",
+    "name": "TAXIM O FORTE SYP",
     "company": "ALKEM",
     "price": 77.02,
     "category": "LIQUID",
@@ -2893,7 +2893,7 @@
   },
   {
     "id": 307,
-    "name": "AZIWOK SYP 100MG",
+    "name": "AZIWOK SYP ",
     "company": "DR REDDYS",
     "price": 57.42,
     "category": "LIQUID",
@@ -2905,7 +2905,7 @@
   },
   {
     "id": 308,
-    "name": "GUDCEF TAB 100MG",
+    "name": "GUDCEF TAB ",
     "company": "MANKIND",
     "price": 164.99,
     "category": "TABLET_CAP",
