@@ -36,7 +36,7 @@
 }
 
 body{
-    font-family:Arial,sans-serif;
+    font-family:'Poppins',Arial,sans-serif;
     background:#f3f4f6;
 }
 
@@ -47,15 +47,9 @@ body{
 
 header{
 
-    background:
-        linear-gradient(rgba(13,110,106,.35), rgba(13,110,106,.35)),
-        url("images/website_images/header_banner.jpg");
+    background:linear-gradient(135deg,#0d6e6a 0%,#0a5a57 55%,#083f3d 100%);
 
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    color:#000;
+    color:#fff;
 
     padding:10px 30px;
 
@@ -129,7 +123,11 @@ header{
 
     font-size:15px;
 
-    text-decoration:underline;
+    font-weight:500;
+
+    color:rgba(255,255,255,.92);
+
+    letter-spacing:.2px;
 
 }
 
