@@ -1566,6 +1566,44 @@ header{
 
     padding:12px;
 
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    right:0;
+
+    width:100%;
+
+    transition:transform .3s ease;
+
+    transform:translateY(0);
+
+}
+
+header.header-hidden{
+
+    transform:translateY(-100%);
+
+}
+
+/* Content ko header ki height ke barabar jagah do (fixed header
+   ke neeche chhupne se bachne ke liye), aur jab header hide ho
+   to isko bhi smoothly 0 tak shrink karo — isse content upar
+   slide hoke wo jagah "reclaim" karta hai jo header ne chhodi. */
+body{
+
+    padding-top:var(--header-height, 0px);
+
+    transition:padding-top .3s ease;
+
+}
+
+body.header-hidden{
+
+    padding-top:0;
+
 }
 
 .header-top{
@@ -2112,45 +2150,11 @@ header{
 
 }*/
 /*=========================================================
-                MOBILE STICKY HEADER — COMPACT MODE
+   NOTE: Old "hide only logo" compact-mode CSS removed.
+   Header ab poora ek unit ki tarah slide hota hai
+   (see header.header-hidden rule near the top of this
+   media query) — Amazon/Flipkart/Meesho jaisa pattern.
 =========================================================*/
-
-.logo-section{
-
-    overflow:hidden;
-
-    max-height:220px;
-
-    transition:max-height .3s ease,
-               opacity .25s ease,
-               margin .3s ease;
-
-    opacity:1;
-
-    will-change:max-height;
-
-}
-
-header.header-compact .logo-section{
-
-    max-height:0;
-    opacity:0;
-    margin:0;
-    pointer-events:none;
-
-}
-
-header.header-compact{
-
-    padding-top:8px;
-
-}
-
-header.header-compact .header-top{
-
-    gap:0;
-
-}
 
 
 }

@@ -1232,65 +1232,103 @@ document.addEventListener("keydown", function(event){
 /* =========================================================
    MOBILE STICKY HEADER — HIDE LOGO ON SCROLL DIRECTION
    ---------------------------------------------------------
-   Transition ke dauraan (300ms) naye scroll events ko
-   ignore karta hai — isse layout-shift se hone wala
-   feedback loop / flicker nahi hota.
+   DISABLED: is feature ki wajah se mobile pe search bar
+   scroll karte waqt clip/cut ho raha tha. Ab header hamesha
+   stable rehta hai (logo + search bar + categories) — koi
+   scroll-based hide/show nahi hota, isliye clipping bug
+   completely eliminate ho gaya hai.
+
+   Agar future mein ye "compact on scroll" effect wapas
+   chahiye ho (space bachane ke liye), to isse phir se
+   enable kar sakte hain — lekin tab isse zyada safe tarike
+   se implement karna hoga (jaise sirf font-size chhota
+   karna, layout se hata na kar).
+========================================================= */
+
+/* =========================================================
+   MOBILE STICKY HEADER — HIDE ON SCROLL DOWN, SHOW ON SCROLL UP
+   ---------------------------------------------------------
+   Ye wahi pattern hai jo Amazon / Flipkart / Meesho jaise
+   e-commerce apps use karte hain:
+
+     - Header (logo + search bar + categories) POORA EK UNIT
+       ki tarah slide hota hai — kabhi bhi sirf internal
+       parts (jaise sirf logo) hide/collapse nahi kiye jaate.
+     - Isliye search bar KABHI clip/cut nahi ho sakti — ya to
+       pura header dikhega, ya bilkul nahi (position:fixed +
+       transform: translateY, CSS mein set hai).
+     - Sirf mobile (<=768px) par active hai. Desktop par header
+       hamesha sticky/visible rehta hai (jaisa pehle tha).
+
+   Reference pattern: hide-on-scroll-down / show-on-scroll-up
+   (industry-standard technique, e.g. Marius Craciunoiu's
+   widely-used implementation).
 ========================================================= */
 
 const siteHeader = document.querySelector("header");
 
 let lastScrollY = window.scrollY;
-let isCompact = false;
 let ticking = false;
-let locked = false;
 
-const MIN_MOVEMENT = 8;
-const TOP_SAFE_ZONE = 20;
-const TRANSITION_TIME = 320;   // CSS transition (.3s) se thoda zyada
+const SCROLL_DELTA = 8;     // itna scroll hone ke baad hi react karo (jitter avoid)
+const TOP_SAFE_ZONE = 20;   // page ke bilkul top pe hamesha header dikhna chahiye
 
-function setCompact(state){
+function isMobileView(){
+    return window.innerWidth <= 768;
+}
 
-    if(state === isCompact) return;
+// Header ki height ke barabar body ko padding do, taaki
+// fixed header content ke upar overlap na kare.
+function syncBodyPadding(){
 
-    isCompact = state;
-
-    if(state){
-        siteHeader.classList.add("header-compact");
-    }else{
-        siteHeader.classList.remove("header-compact");
+    if(isMobileView()){
+        document.documentElement.style.setProperty(
+            "--header-height",
+            siteHeader.offsetHeight + "px"
+        );
+    } else {
+        document.documentElement.style.removeProperty("--header-height");
     }
-
-    locked = true;
-
-    setTimeout(() => {
-        locked = false;
-    }, TRANSITION_TIME);
 
 }
 
-function updateHeaderState(){
+// Header aur body — dono ek saath "header-hidden" state
+// mein sync rehte hain, taaki content bhi header ke saath
+// hi smoothly upar slide ho (na ki khaali gap chhod de).
+function setHeaderHidden(hidden){
+
+    siteHeader.classList.toggle("header-hidden", hidden);
+    document.body.classList.toggle("header-hidden", hidden);
+
+}
+
+function updateHeaderVisibility(){
+
+    if(!isMobileView()){
+        setHeaderHidden(false);
+        lastScrollY = window.scrollY;
+        ticking = false;
+        return;
+    }
 
     const scrollY = window.scrollY;
-
     const diff = scrollY - lastScrollY;
 
-    if(window.innerWidth <= 768 && !locked){
+    if(scrollY <= TOP_SAFE_ZONE){
 
-        if(scrollY < TOP_SAFE_ZONE){
+        setHeaderHidden(false);
 
-            setCompact(false);
+    }
+    else if(diff > SCROLL_DELTA){
 
-        }
-        else if(diff > MIN_MOVEMENT){
+        // Scroll down — poora header ek saath upar slide karke hide ho jaata hai
+        setHeaderHidden(true);
 
-            setCompact(true);
+    }
+    else if(diff < -SCROLL_DELTA){
 
-        }
-        else if(diff < -MIN_MOVEMENT){
-
-            setCompact(false);
-
-        }
+        // Scroll up — poora header ek saath wapas slide ho jaata hai
+        setHeaderHidden(false);
 
     }
 
@@ -1302,13 +1340,25 @@ function updateHeaderState(){
 window.addEventListener("scroll", () => {
 
     if(!ticking){
-
-        window.requestAnimationFrame(updateHeaderState);
+        window.requestAnimationFrame(updateHeaderVisibility);
         ticking = true;
-
     }
 
 }, { passive:true });
+
+window.addEventListener("resize", syncBodyPadding);
+window.addEventListener("load", syncBodyPadding);
+
+// Turant ek baar call karo taaki page load hote hi
+// body ka padding sahi ho (fixed header content ko chhupaye nahi).
+syncBodyPadding();
+
+// Google Font (Poppins) thodi der baad load hoke text ka size
+// slightly badal sakta hai (font-swap) — isliye ek chhota delay
+// ke baad dobara sync kar lo, taaki height hamesha accurate rahe.
+setTimeout(syncBodyPadding, 500);
+
+
 
 /* adding slider code 
 // =================== Slider ===================
