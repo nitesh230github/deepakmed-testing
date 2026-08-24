@@ -328,6 +328,10 @@ function displayProducts(items){
 
                 <div class="product-image">
 
+                    <div class="stock-badge">
+                        <span class="stock-dot"></span>In Stock
+                    </div>
+
                     <img
                         src="${mainImage}"
                         alt="${product.name}"
@@ -402,16 +406,13 @@ function displayProducts(items){
 
                         <div class="info-right">
 
-                            <span class="mrp-price">
-
-                                ₹ ${product.price}
-
+                            <span class="mrp-text">
+                                MRP
                             </span>
 
+                            <span class="mrp-price">
 
-                            <span class="mrp-text">
-
-                                MRP
+                                ₹${product.price}
 
                             </span>
 
