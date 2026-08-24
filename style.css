@@ -2119,35 +2119,36 @@ header{
 
     overflow:hidden;
 
-    transition:transform .3s ease,
-               opacity .25s ease;
+    max-height:220px;
 
-    transform:translateY(0);
+    transition:max-height .3s ease,
+               opacity .25s ease,
+               margin .3s ease;
+
     opacity:1;
 
-    will-change:transform;
+    will-change:max-height;
 
 }
 
 header.header-compact .logo-section{
 
-    transform:translateY(-100%);
+    max-height:0;
     opacity:0;
+    margin:0;
     pointer-events:none;
-
-    position:absolute;
-
-    width:100%;
-
-    top:0;
-
-    left:0;
 
 }
 
 header.header-compact{
 
     padding-top:8px;
+
+}
+
+header.header-compact .header-top{
+
+    gap:0;
 
 }
 
