@@ -366,9 +366,13 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     width:100%;
 
-    height:180px;
+    aspect-ratio:1 / 1;
 
     object-fit:contain;
+
+    border-radius:10px;
+
+    background:#fff;
 
     margin-bottom:6px;
 
@@ -1359,8 +1363,6 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     background:#fff;
 
-    color:var(--color-accent-dark);
-
     padding:4px 9px;
 
     border-radius:999px;
@@ -1377,6 +1379,34 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
 }
 
+.stock-badge.in-stock{
+
+    color:var(--color-accent-dark);
+
+}
+
+.stock-badge.out-of-stock{
+
+    color:var(--color-danger-dark);
+
+}
+
+.stock-badge.in-stock .stock-dot{
+
+    background:var(--color-accent);
+
+    box-shadow:0 0 0 3px rgba(22,163,74,.25);
+
+}
+
+.stock-badge.out-of-stock .stock-dot{
+
+    background:var(--color-danger);
+
+    box-shadow:0 0 0 3px rgba(239,68,68,.25);
+
+}
+
 .stock-dot{
 
     width:6px;
@@ -1385,11 +1415,27 @@ sirf backend/JS logic ke liye DOM me rakha gaya hai.
 
     border-radius:50%;
 
-    background:var(--color-accent);
-
-    box-shadow:0 0 0 3px rgba(22,163,74,.25);
-
     flex-shrink:0;
+
+}
+
+#products .card button.out-of-stock-btn{
+
+    background:#d1d5db;
+
+    color:#6b7280;
+
+    cursor:not-allowed;
+
+}
+
+#products .card button.out-of-stock-btn:hover{
+
+    background:#d1d5db;
+
+    transform:none;
+
+    box-shadow:none;
 
 }
 
@@ -1679,9 +1725,15 @@ header{
 
     width:100%;
 
-    height:125px;
+    aspect-ratio:1 / 1;
+
+    height:auto;
 
     object-fit:contain;
+
+    border-radius:8px;
+
+    background:#fff;
 
     margin:0;
 

@@ -288,6 +288,24 @@ function displayProducts(items){
 
 
         // =====================================================
+        // STOCK STATUS
+        //
+        // product.inStock === false  -> "Out of Stock" (red)
+        // anything else (true / missing) -> "In Stock" (green)
+        // Missing field defaults to true so older product
+        // entries don't break.
+        // =====================================================
+
+        let isInStock = product.inStock !== false;
+
+        let stockBadge = isInStock
+            ? `<div class="stock-badge in-stock"><span class="stock-dot"></span>In Stock</div>`
+            : `<div class="stock-badge out-of-stock"><span class="stock-dot"></span>Out of Stock</div>`;
+
+
+
+
+        // =====================================================
         // MULTIPLE IMAGE BADGE
         //
         // Badge will ONLY appear when product has more
@@ -328,9 +346,7 @@ function displayProducts(items){
 
                 <div class="product-image">
 
-                    <div class="stock-badge">
-                        <span class="stock-dot"></span>In Stock
-                    </div>
+                    ${stockBadge}
 
                     <img
                         src="${mainImage}"
@@ -428,6 +444,22 @@ function displayProducts(items){
                 ================================================== -->
 
                 ${
+                    !isInStock
+
+                    ?
+
+                    `
+
+                    <button class="out-of-stock-btn" disabled>
+
+                        Out of Stock
+
+                    </button>
+
+                    `
+
+                    :
+
                     qty === 0
 
                     ?
