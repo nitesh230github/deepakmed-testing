@@ -1230,39 +1230,22 @@ document.addEventListener("keydown", function(event){
 });
 
 /* =========================================================
-   MOBILE STICKY HEADER — HIDE LOGO ON SCROLL DIRECTION
+   MOBILE HEADER — HIDE LOGO ONLY ON SCROLL DOWN
    ---------------------------------------------------------
-   DISABLED: is feature ki wajah se mobile pe search bar
-   scroll karte waqt clip/cut ho raha tha. Ab header hamesha
-   stable rehta hai (logo + search bar + categories) — koi
-   scroll-based hide/show nahi hota, isliye clipping bug
-   completely eliminate ho gaya hai.
+   Jaisa e-commerce apps (Amazon/Flipkart/Meesho) mein hota
+   hai: scroll down karne par SIRF logo + tagline hide hota
+   hai. Search bar aur category buttons HAMESHA visible
+   rehte hain — kabhi hide nahi hote.
 
-   Agar future mein ye "compact on scroll" effect wapas
-   chahiye ho (space bachane ke liye), to isse phir se
-   enable kar sakte hain — lekin tab isse zyada safe tarike
-   se implement karna hoga (jaise sirf font-size chhota
-   karna, layout se hata na kar).
-========================================================= */
+   Simplicity > fancy animation: logo ko seedha "display:none"
+   se hide/show kiya ja raha hai (instant, animated nahi).
+   Ye sabse zyada reliable tareeka hai — isme koi transform,
+   position:absolute, ya height-collapse trick use nahi hui,
+   isliye koi bhi layout/clipping bug possible nahi hai.
 
-/* =========================================================
-   MOBILE STICKY HEADER — HIDE ON SCROLL DOWN, SHOW ON SCROLL UP
-   ---------------------------------------------------------
-   Ye wahi pattern hai jo Amazon / Flipkart / Meesho jaise
-   e-commerce apps use karte hain:
-
-     - Header (logo + search bar + categories) POORA EK UNIT
-       ki tarah slide hota hai — kabhi bhi sirf internal
-       parts (jaise sirf logo) hide/collapse nahi kiye jaate.
-     - Isliye search bar KABHI clip/cut nahi ho sakti — ya to
-       pura header dikhega, ya bilkul nahi (position:fixed +
-       transform: translateY, CSS mein set hai).
-     - Sirf mobile (<=768px) par active hai. Desktop par header
-       hamesha sticky/visible rehta hai (jaisa pehle tha).
-
-   Reference pattern: hide-on-scroll-down / show-on-scroll-up
-   (industry-standard technique, e.g. Marius Craciunoiu's
-   widely-used implementation).
+   Cart button (#cartButton) header ke bahar, body ka direct
+   child hai (index.html mein) — isliye ye header par kuch bhi
+   ho, hamesha apni bottom-right corner wali jagah par rahega.
 ========================================================= */
 
 const siteHeader = document.querySelector("header");
@@ -1271,41 +1254,20 @@ let lastScrollY = window.scrollY;
 let ticking = false;
 
 const SCROLL_DELTA = 8;     // itna scroll hone ke baad hi react karo (jitter avoid)
-const TOP_SAFE_ZONE = 20;   // page ke bilkul top pe hamesha header dikhna chahiye
+const TOP_SAFE_ZONE = 20;   // page ke bilkul top par hamesha logo dikhna chahiye
 
 function isMobileView(){
     return window.innerWidth <= 768;
 }
 
-// Header ki height ke barabar body ko padding do, taaki
-// fixed header content ke upar overlap na kare.
-function syncBodyPadding(){
-
-    if(isMobileView()){
-        document.documentElement.style.setProperty(
-            "--header-height",
-            siteHeader.offsetHeight + "px"
-        );
-    } else {
-        document.documentElement.style.removeProperty("--header-height");
-    }
-
+function setLogoHidden(hidden){
+    siteHeader.classList.toggle("logo-hidden", hidden);
 }
 
-// Header aur body — dono ek saath "header-hidden" state
-// mein sync rehte hain, taaki content bhi header ke saath
-// hi smoothly upar slide ho (na ki khaali gap chhod de).
-function setHeaderHidden(hidden){
-
-    siteHeader.classList.toggle("header-hidden", hidden);
-    document.body.classList.toggle("header-hidden", hidden);
-
-}
-
-function updateHeaderVisibility(){
+function updateHeaderState(){
 
     if(!isMobileView()){
-        setHeaderHidden(false);
+        setLogoHidden(false);
         lastScrollY = window.scrollY;
         ticking = false;
         return;
@@ -1316,19 +1278,19 @@ function updateHeaderVisibility(){
 
     if(scrollY <= TOP_SAFE_ZONE){
 
-        setHeaderHidden(false);
+        setLogoHidden(false);
 
     }
     else if(diff > SCROLL_DELTA){
 
-        // Scroll down — poora header ek saath upar slide karke hide ho jaata hai
-        setHeaderHidden(true);
+        // Scroll down — sirf logo/tagline hide, search bar + categories as-is
+        setLogoHidden(true);
 
     }
     else if(diff < -SCROLL_DELTA){
 
-        // Scroll up — poora header ek saath wapas slide ho jaata hai
-        setHeaderHidden(false);
+        // Scroll up — logo wapas dikhao
+        setLogoHidden(false);
 
     }
 
@@ -1340,23 +1302,15 @@ function updateHeaderVisibility(){
 window.addEventListener("scroll", () => {
 
     if(!ticking){
-        window.requestAnimationFrame(updateHeaderVisibility);
+        window.requestAnimationFrame(updateHeaderState);
         ticking = true;
     }
 
 }, { passive:true });
 
-window.addEventListener("resize", syncBodyPadding);
-window.addEventListener("load", syncBodyPadding);
-
-// Turant ek baar call karo taaki page load hote hi
-// body ka padding sahi ho (fixed header content ko chhupaye nahi).
-syncBodyPadding();
-
-// Google Font (Poppins) thodi der baad load hoke text ka size
-// slightly badal sakta hai (font-swap) — isliye ek chhota delay
-// ke baad dobara sync kar lo, taaki height hamesha accurate rahe.
-setTimeout(syncBodyPadding, 500);
+window.addEventListener("resize", () => {
+    if(!isMobileView()) setLogoHidden(false);
+});
 
 
 

@@ -1566,43 +1566,17 @@ header{
 
     padding:12px;
 
-    position:fixed;
+}
 
-    top:0;
+.logo-section{
 
-    left:0;
-
-    right:0;
-
-    width:100%;
-
-    transition:transform .3s ease;
-
-    transform:translateY(0);
+    display:flex;
 
 }
 
-header.header-hidden{
+header.logo-hidden .logo-section{
 
-    transform:translateY(-100%);
-
-}
-
-/* Content ko header ki height ke barabar jagah do (fixed header
-   ke neeche chhupne se bachne ke liye), aur jab header hide ho
-   to isko bhi smoothly 0 tak shrink karo — isse content upar
-   slide hoke wo jagah "reclaim" karta hai jo header ne chhodi. */
-body{
-
-    padding-top:var(--header-height, 0px);
-
-    transition:padding-top .3s ease;
-
-}
-
-body.header-hidden{
-
-    padding-top:0;
+    display:none;
 
 }
 
@@ -2150,10 +2124,12 @@ body.header-hidden{
 
 }*/
 /*=========================================================
-   NOTE: Old "hide only logo" compact-mode CSS removed.
-   Header ab poora ek unit ki tarah slide hota hai
-   (see header.header-hidden rule near the top of this
-   media query) — Amazon/Flipkart/Meesho jaisa pattern.
+   NOTE: Sirf logo-section hide hota hai scroll down par
+   (header.logo-hidden .logo-section — top of this media
+   query mein defined). Search bar aur category buttons
+   hamesha visible rehte hain. Cart button ab header ke
+   bahar (body ka direct child) hai, taaki header par kabhi
+   koi transform/animation ho to bhi cart button affect na ho.
 =========================================================*/
 
 
