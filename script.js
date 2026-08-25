@@ -1253,15 +1253,29 @@ const siteHeader = document.querySelector("header");
 let lastScrollY = window.scrollY;
 let ticking = false;
 
-const SCROLL_DELTA = 8;     // itna scroll hone ke baad hi react karo (jitter avoid)
-const TOP_SAFE_ZONE = 20;   // page ke bilkul top par hamesha logo dikhna chahiye
+let accumulatedDelta = 0;   // current direction mein ab tak kitna continuously scroll hua
+let lastDirection = null;   // "down" | "up" | null
+let isLocked = false;       // toggle ke turant baad chhota cooldown (extra jitter-proofing)
+
+const TOGGLE_THRESHOLD = 45;  // itna CONTINUOUS scroll chahiye (px) tabhi toggle hoga
+const TOP_SAFE_ZONE = 20;     // page ke bilkul top par hamesha logo dikhna chahiye
+const LOCK_DURATION = 250;    // ms — toggle ke turant baad thoda cooldown
 
 function isMobileView(){
     return window.innerWidth <= 768;
 }
 
 function setLogoHidden(hidden){
+
+    if(siteHeader.classList.contains("logo-hidden") === hidden) return;
+
     siteHeader.classList.toggle("logo-hidden", hidden);
+
+    // Chhota cooldown — isse touch-scroll ke residual/bounce
+    // events turant dobara toggle nahi kar paate (glitch-proofing).
+    isLocked = true;
+    setTimeout(() => { isLocked = false; }, LOCK_DURATION);
+
 }
 
 function updateHeaderState(){
@@ -1269,32 +1283,54 @@ function updateHeaderState(){
     if(!isMobileView()){
         setLogoHidden(false);
         lastScrollY = window.scrollY;
+        accumulatedDelta = 0;
+        lastDirection = null;
         ticking = false;
         return;
     }
 
     const scrollY = window.scrollY;
     const diff = scrollY - lastScrollY;
-
-    if(scrollY <= TOP_SAFE_ZONE){
-
-        setLogoHidden(false);
-
-    }
-    else if(diff > SCROLL_DELTA){
-
-        // Scroll down — sirf logo/tagline hide, search bar + categories as-is
-        setLogoHidden(true);
-
-    }
-    else if(diff < -SCROLL_DELTA){
-
-        // Scroll up — logo wapas dikhao
-        setLogoHidden(false);
-
-    }
-
     lastScrollY = scrollY;
+
+    // Page ke bilkul top par hamesha logo dikhna chahiye
+    if(scrollY <= TOP_SAFE_ZONE){
+        setLogoHidden(false);
+        accumulatedDelta = 0;
+        lastDirection = null;
+        ticking = false;
+        return;
+    }
+
+    if(isLocked || diff === 0){
+        ticking = false;
+        return;
+    }
+
+    const direction = diff > 0 ? "down" : "up";
+
+    // Direction badli (jitter/bounce) — accumulator reset karo,
+    // taaki chhoti aage-peeche movement ko "sustained scroll"
+    // na maan liya jaaye.
+    if(direction !== lastDirection){
+        accumulatedDelta = 0;
+        lastDirection = direction;
+    }
+
+    accumulatedDelta += Math.abs(diff);
+
+    if(accumulatedDelta >= TOGGLE_THRESHOLD){
+
+        if(direction === "down"){
+            setLogoHidden(true);   // sustained scroll down — logo hide
+        }else{
+            setLogoHidden(false);  // sustained scroll up — logo dikhao
+        }
+
+        accumulatedDelta = 0;
+
+    }
+
     ticking = false;
 
 }
